@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday 🎉</title>
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .sparkle {
+      position: fixed;
+      width: 6px;
+      height: 6px;
+      background: white;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+
+    body {
+      background: radial-gradient(circle at top, #0f0c29, #302b63, #24243e);
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    section {
+      min-height: 100vh;
+      padding: 80px 10%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    section::before {
+      content: "";
+      position: absolute;
+      inset: -20%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.08), transparent 60%);
+      z-index: -1;
+    }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.8rem, 5vw, 4rem);
+      text-shadow: 0 10px 50px rgba(255, 78, 205, 0.5);
+    }
+
+    .subtitle {
+      margin: 25px 0;
+      opacity: 0.9;
+    }
+
+    /* DIVIDER */
+    .divider {
+      height: 120px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .divider span {
+      width: 180px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #ff4ecd, #6c63ff, transparent);
+      position: relative;
+    }
+
+    .divider span::after {
+      content: "✦";
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    /* LETTER */
+    .letter {
+      background: linear-gradient(135deg, rgba(255, 78, 205, 0.12), rgba(108, 99, 255, 0.12));
+      border-radius: 40px;
+      padding: 40px;
+      text-align: center;
+      display: none;
+    }
+
+    .letter h2 {
+      margin-bottom: 25px;
+    }
+
+    .letter p {
+      max-width: 680px;
+      line-height: 1.9;
+      font-size: 1.1rem;
+      margin: auto;
+      text-align: center;
+    }
+
+    /* MIDDLE / GIFT */
+    .gift-section {
+      text-align: center;
+      padding: 100px 10%;
+      position: relative;
+    }
+
+    .gift-section h2 {
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      text-shadow: 0 5px 20px rgba(255, 78, 205, 0.5);
+    }
+
+    .gift-section button {
+      padding: 15px 40px;
+      font-size: 1.1rem;
+      border-radius: 40px;
+      border: none;
+      background: linear-gradient(135deg, #ff4ecd, #6c63ff);
+      cursor: pointer;
+      color: white;
+      transition: transform 0.3s ease;
+    }
+
+    .gift-section button:hover {
+      transform: scale(1.05);
+    }
+
+    .gift-content {
+      margin-top: 50px;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 1s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .gift-content.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* SLIDER */
+    .slider {
+      overflow: hidden;
+      border-radius: 25px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      margin-bottom: 20px;
+      width: 300px !important;
+      max-width: 350px;
+    }
+
+    .slides {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+      width: 300px;
+    }
+
+    .slide {
+      min-width: 300px;
+      flex-shrink: 0;
+    }
+
+    .slide img {
+      width: 300px;
+      display: block;
+      border-radius: 25px;
+      object-fit: cover;
+    }
+
+    .gift-wishes {
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin: auto;
+      line-height: 1.8;
+      text-shadow: 0 5px 20px rgba(108, 99, 255, 0.5);
+      text-align: center;
+    }
+
+    /* Balloons */
+    .balloon {
+      position: absolute;
+      bottom: 50px;
+      width: 40px;
+      height: 60px;
+      border-radius: 50%;
+      opacity: 0.9;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 50px;
+      opacity: 0.7;
+    }
+
+    /* PARTICLES & CONFETTI */
+    #particles,
+    #confetti {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+    }
+
+    /* CURSOR */
+    .cursor {
+      width: 15px;
+      height: 15px;
+      border: 2px solid white;
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 999;
+    }
+
+    .click {
+      position: absolute;
+      bottom: 20px;
+    }
+
+    .end-screen {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: radial-gradient(circle at center, #1b1b3a, #0f0c29);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .end-screen h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      text-shadow: 0 10px 40px rgba(255, 78, 205, 0.6);
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="particles"></canvas>
+  <canvas id="confetti"></canvas>
+  <div class="cursor"></div>
+
+
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1 id="heroText">Happy Birthday, My Best Friend 🎂</h1>
+    <p class="subtitle">Every moment with you is magic ✨</p>
+    <div class="click">
+      click on the Happy Birthday
+    </div>
+  </section>
+
+  <div class="divider"><span></span></div>
+  <div id="shown" class="d-none">
+    <!-- LETTER -->
+    <section class="letter" id="letterSection">
+      <h2>A Message Just For You</h2>
+      <p id="typeText"></p>
+    </section>
+
+    <div class="divider"><span></span></div>
+
+    <!-- GIFT / MIDDLE -->
+    <section class="gift-section">
+      <h2>Someone is beautiful here 🫣🫢🎁</h2>
+      <button id="revealBtn">Lets see 👀</button>
+      <div class="gift-content">
+        <div class="slider">
+          <div class="slides">
+            <div class="slide"><img src="image2.jpeg" alt="Memory 1"></div>
+            <div class="slide"><img src="image6.jpeg" alt="Memory 2"></div>
+            <div class="slide"><img src="image5.jpeg" alt="Memory 3"></div>
+            <div class="slide"><img src="image7.jpeg" alt="Memory 4"></div>
+            <div class="slide"><img src="image.jpeg" alt="Memory 5"></div>
+            <div class="slide"><img src="image1.jpeg" alt="Memory 6"></div>
+          </div>
+        </div>
+        <p class="gift-wishes">
+          Happy Birthday! 🎂 You are an amazing friend, and this is just for you!
+        </p>
+      </div>
+    </section>
+
+    <section class="hero" id="endScreen" style="display:none;">
+      <h1>One last thing…</h1>
+      <p class="subtitle">
+        This year is yours.
+        Walk into it confidently.
+      </p>
+    </section>
+
+    <footer>
+      <p>Crafted with love & precision 💖</p>
+    </footer>
+
+
+    <!-- Music -->
+    <audio id="music" loop preload="auto" autoplay>
+      <source src="SpotiDownloader.com - Tum Jo Aaye - Pritam.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+      /* Cursor */
+      const cursor = document.querySelector('.cursor');
+      document.addEventListener('mousemove', e => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+      });
+
+      /* Music fade-in */
+      const music = document.getElementById('music');
+      window.addEventListener('load', async () => {
+        try {
+          await music.play();
+          gsap.to(music, { volume: 0.6, duration: 3 });
+        } catch (e) {
+          window.addEventListener('click', () => music.play());
+        }
+      });
+
+      // Hero click -> show letter
+      const heroText = document.getElementById('heroText');
+      const letterSection = document.getElementById('letterSection');
+      const typeText = document.getElementById('typeText');
+      const display = document.getElementById("shown")
+      const message = "Happy Birthday! 🎂 You are not just a friend—you are a spark of joy in every moment. These memories are a small reflection of how amazing you are. May your day be filled with laughter, love, and all the magic you bring into the world!";
+
+      heroText.addEventListener('click', () => {
+        gsap.to(heroText.parentElement, {
+          opacity: 0, y: -50, duration: 1, onComplete: () => {
+            heroText.parentElement.style.display = 'none';
+            letterSection.style.display = 'block';
+            gsap.from(letterSection, { opacity: 0, y: 50, duration: 1.5 });
+            display.classList.remove("d-none");
+            // Typing effect
+            let idx = 0;
+            function typeEffect() {
+              if (idx < message.length) {
+                typeText.innerHTML += message.charAt(idx);
+                idx++;
+                setTimeout(typeEffect, 40);
+              }
+            }
+            typeEffect();
+          }
+        });
+      });
+      document.addEventListener("click", e => {
+        for (let i = 0; i < 6; i++) {
+          const s = document.createElement("div");
+          s.className = "sparkle";
+          s.style.left = e.clientX + "px";
+          s.style.top = e.clientY + "px";
+          document.body.appendChild(s);
+
+          gsap.to(s, {
+            x: (Math.random() - 0.5) * 80,
+            y: (Math.random() - 0.5) * 80,
+            opacity: 0,
+            scale: 0,
+            duration: 0.8,
+            onComplete: () => s.remove()
+          });
+        }
+      });
+
+      // Gift Reveal + Balloons
+      const revealBtn = document.getElementById('revealBtn');
+      const giftContent = document.querySelector('.gift-content');
+
+      function createBalloon() {
+        const colors = ["#ff4ecd", "#6c63ff", "#ffdd59", "#00d8ff", "#ff7f50"];
+        const balloon = document.createElement('div');
+        balloon.className = 'balloon';
+        const rect = giftContent.getBoundingClientRect();
+        balloon.style.left = rect.left + Math.random() * rect.width + 'px';
+        balloon.style.background = `linear-gradient(45deg, ${colors[Math.floor(Math.random() * colors.length)]}, #fff)`;
+        document.body.appendChild(balloon);
+        gsap.to(balloon, {
+          y: -600 - Math.random() * 200,
+          rotation: Math.random() * 360,
+          scale: Math.random() * 0.5 + 0.7,
+          duration: Math.random() * 4 + 4,
+          ease: "power1.out",
+          onComplete: () => balloon.remove()
+        });
+      }
+
+      revealBtn.addEventListener("click", () => {
+        let count = 3;
+        revealBtn.disabled = true;
+        revealBtn.textContent = count;
+
+        const timer = setInterval(() => {
+          count--;
+          revealBtn.textContent = count;
+
+          if (count === 0) {
+            clearInterval(timer);
+            revealBtn.style.display = "none";
+            giftContent.classList.add("show");
+
+            for (let i = 0; i < 20; i++) {
+              setTimeout(createBalloon, i * 150);
+            }
+          }
+        }, 1000);
+      });
+      function vibrate(ms = 50) {
+        if (navigator.vibrate) navigator.vibrate(ms);
+      }
+
+      revealBtn.addEventListener("click", () => vibrate(100));
+      heroText.addEventListener("click", () => vibrate(80));
+
+
+      // Slider Auto + Swipe
+      const slidesContainer = document.querySelector('.slides');
+      const slides = document.querySelectorAll('.slide');
+      let slideIndex = 0;
+      let startX = 0;
+      let isDragging = false;
+
+      function nextSlide() {
+        slideIndex++;
+        if (slideIndex >= slides.length) slideIndex = 0;
+        slidesContainer.style.transform = `translateX(-${slideIndex * 100}%)`;
+      }
+      let slideInterval = setInterval(nextSlide, 3000);
+
+      slidesContainer.addEventListener('touchstart', e => {
+        clearInterval(slideInterval);
+        startX = e.touches[0].clientX;
+        isDragging = true;
+      });
+      slidesContainer.addEventListener('touchmove', e => {
+        if (!isDragging) return;
+        const moveX = e.touches[0].clientX - startX;
+        slidesContainer.style.transform = `translateX(-${slideIndex * 100 - (moveX / slidesContainer.clientWidth) * 100}%)`;
+      });
+      slidesContainer.addEventListener('touchend', e => {
+        isDragging = false;
+        const diff = startX - e.changedTouches[0].clientX;
+        if (diff > 50) nextSlide();
+        else if (diff < -50) { slideIndex--; if (slideIndex < 0) slideIndex = slides.length - 1; slidesContainer.style.transform = `translateX(-${slideIndex * 100}%)`; }
+        else slidesContainer.style.transform = `translateX(-${slideIndex * 100}%)`;
+        slideInterval = setInterval(nextSlide, 3000);
+      });
+
+      // GSAP Section Animations
+      gsap.utils.toArray("section").forEach(section => {
+        gsap.from(section, {
+          scrollTrigger: { trigger: section, start: "top 85%" },
+          opacity: 0,
+          y: 120,
+          duration: 1.3,
+          ease: "power4.out"
+        });
+      });
+
+      // PARTICLES
+      const canvas = document.getElementById('particles'); const ctx = canvas.getContext('2d'); canvas.width = innerWidth; canvas.height = innerHeight;
+      window.addEventListener('resize', () => { canvas.width = innerWidth; canvas.height = innerHeight; });
+      const particles = Array.from({ length: 140 }, () => ({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() * 2, dx: Math.random() - 0.5, dy: Math.random() - 0.5 }));
+      (function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.x += p.dx; p.y += p.dy; if (p.x < 0 || p.x > canvas.width) p.dx *= -1; if (p.y < 0 || p.y > canvas.height) p.dy *= -1; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fillStyle = "white"; ctx.fill(); }); requestAnimationFrame(animate); })();
+
+      // CONFETTI
+      const confettiCanvas = document.getElementById('confetti');
+      const confettiCtx = confettiCanvas.getContext('2d');
+      confettiCanvas.width = innerWidth;
+      confettiCanvas.height = innerHeight;
+      const confettis = Array.from({ length: 100 }, () => ({ x: Math.random() * innerWidth, y: Math.random() * innerHeight, r: Math.random() * 6 + 4, dx: (Math.random() - 0.5) * 2, dy: Math.random() * 2 + 2, color: `hsl(${Math.random() * 360},70%,60%)` }));
+
+      (function confettiAnimate() { confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height); confettis.forEach(c => { c.x += c.dx; c.y += c.dy; if (c.y > innerHeight) { c.y = -10; c.x = Math.random() * innerWidth; } confettiCtx.beginPath(); confettiCtx.arc(c.x, c.y, c.r, 0, Math.PI * 2); confettiCtx.fillStyle = c.color; confettiCtx.fill(); }); requestAnimationFrame(confettiAnimate); })();
+      window.addEventListener('resize', () => { confettiCanvas.width = innerWidth; confettiCanvas.height = innerHeight; });
+
+     let endShown = false;
+
+window.addEventListener("scroll", () => {
+  if (endShown) return;
+
+  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+    endShown = true;
+
+    const endScreen = document.getElementById("endScreen");
+    endScreen.style.pointerEvents = "auto";
+
+    gsap.fromTo(
+      endScreen,
+      { opacity: 0, y: 120 },
+      { opacity: 1, y: 0, duration: 1.5, ease: "power4.out" }
+    );
+
+    gsap.to(music, { volume: 0.2, duration: 3 });
+  }
+});
+
+    </script>
+</body>
+
+</html>
