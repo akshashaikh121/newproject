@@ -174,11 +174,13 @@
       display: flex;
       transition: transform 0.5s ease-in-out;
       width: 300px;
+      height: 300px;
     }
 
     .slide {
       min-width: 300px;
       flex-shrink: 0;
+      height: 100%;
     }
 
     .slide img {
@@ -297,8 +299,8 @@
             <div class="slide"><img src="m2.jpeg" alt="Memory 2"></div>
             <div class="slide"><img src="m3.jpeg" alt="Memory 3"></div>
             <div class="slide"><img src="m4.jpeg" alt="Memory 4"></div>
-            <div class="slide"><img src="m5.jpeg" alt="Memory 5"></div>
-            <div class="slide"><img src="m6.jpeg" alt="Memory 6"></div>
+            <div class="slide"><img src="m5.png" alt="Memory 5"></div>
+            <div class="slide"><img src="m6.png" alt="Memory 6"></div>
           </div>
         </div>
         <p class="gift-wishes">
@@ -500,26 +502,26 @@
       (function confettiAnimate() { confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height); confettis.forEach(c => { c.x += c.dx; c.y += c.dy; if (c.y > innerHeight) { c.y = -10; c.x = Math.random() * innerWidth; } confettiCtx.beginPath(); confettiCtx.arc(c.x, c.y, c.r, 0, Math.PI * 2); confettiCtx.fillStyle = c.color; confettiCtx.fill(); }); requestAnimationFrame(confettiAnimate); })();
       window.addEventListener('resize', () => { confettiCanvas.width = innerWidth; confettiCanvas.height = innerHeight; });
 
-     let endShown = false;
+      let endShown = false;
 
-window.addEventListener("scroll", () => {
-  if (endShown) return;
+      window.addEventListener("scroll", () => {
+        if (endShown) return;
 
-  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
-    endShown = true;
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+          endShown = true;
 
-    const endScreen = document.getElementById("endScreen");
-    endScreen.style.pointerEvents = "auto";
+          const endScreen = document.getElementById("endScreen");
+          endScreen.style.pointerEvents = "auto";
 
-    gsap.fromTo(
-      endScreen,
-      { opacity: 0, y: 120 },
-      { opacity: 1, y: 0, duration: 1.5, ease: "power4.out" }
-    );
+          gsap.fromTo(
+            endScreen,
+            { opacity: 0, y: 120 },
+            { opacity: 1, y: 0, duration: 1.5, ease: "power4.out" }
+          );
 
-    gsap.to(music, { volume: 0.2, duration: 3 });
-  }
-});
+          gsap.to(music, { volume: 0.2, duration: 3 });
+        }
+      });
 
     </script>
 </body>
